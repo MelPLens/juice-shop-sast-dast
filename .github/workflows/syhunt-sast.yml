@@ -1,5 +1,4 @@
-name: Syhunt SAST Analysis
-
+name: SAST with Syhunt Community
 on:
   push:
     branches: [ main ]
@@ -8,24 +7,23 @@ on:
 
 jobs:
   sast:
-    runs-on: windows-latest
-    
+    runs-on: windows-latest  # Syhunt só roda no Windows
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      
-    - name: Download Syhunt
-      run: |
-        Invoke-WebRequest -Uri "https://www.syhunt.com/downloads/syhunt-community-windows-x64-latest.zip" -OutFile "syhunt.zip"
-        Expand-Archive -Path "syhunt.zip" -DestinationPath "syhunt"
-        echo "C:\syhunt" | Out-File -FilePath $env:GITHUB_PATH -Append
-        
-    - name: Run SAST Scan
-      run: |
-        syhunt scan -t . -m sast -o sast-report.html
-        
-    - name: Upload Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: sast-report
-        path: sast-report.html
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Syhunt
+        run: |
+          Invoke-WebRequest -Uri "https://www.syhunt.com/downloads/syhunt-community-windows-x64-latest.zip" -OutFile "syhunt.zip"
+          Expand-Archive -Path "syhunt.zip" -DestinationPath "syhunt"
+
+      - name: Run Scan
+        run: |
+          cd syhunt
+          .\syhunt.exe scan -t "${{ github.workspace }}" -m sast -o report.html --community
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: sast-report
+          path: syhunt/report.html
