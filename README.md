@@ -1,3 +1,31 @@
+
+# Relatório de Análise de Segurança  
+**Alunos**: Mel Plens Angelis
+
+## Metodologia  
+1. **SAST**: CodeQL (GitHub Actions)  
+2. **DAST**: OWASP ZAP  
+
+## Resultados  
+
+### SAST (CodeQL)  
+| ID  | Vulnerabilidade           | Gravidade | Arquivo               | Correção |  
+|-----|---------------------------|-----------|-----------------------|----------|  
+| #88 | SSRF                     | Critical  | routes/imageUpload.js | Validar URL |  
+| #80 | Hard-coded credentials   | Critical  | test/verifySpec.js    | Usar env vars |  
+
+### DAST (OWASP ZAP)  
+- **XSS Refletido**: `/search?q=<script>alert(1)</script>`  
+- **Falta de Headers de Segurança**: Adicionar `Content-Security-Policy`.  
+
+## ✅ Conclusão  
+- Remover credenciais hard-coded e validar inputs.  
+- Adicionar CSP para mitigar XSS.  
+
+
+--------
+
+
 # ![Juice Shop Logo](https://raw.githubusercontent.com/juice-shop/juice-shop/master/frontend/src/assets/public/images/JuiceShop_Logo_100px.png) OWASP Juice Shop
 
 [![OWASP Flagship](https://img.shields.io/badge/owasp-flagship%20project-48A646.svg)](https://owasp.org/projects/#sec-flagships)
