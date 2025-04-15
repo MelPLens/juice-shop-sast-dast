@@ -1,0 +1,31 @@
+name: Syhunt SAST Analysis
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  sast:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Download Syhunt
+      run: |
+        Invoke-WebRequest -Uri "https://www.syhunt.com/downloads/syhunt-community-windows-x64-latest.zip" -OutFile "syhunt.zip"
+        Expand-Archive -Path "syhunt.zip" -DestinationPath "syhunt"
+        echo "C:\syhunt" | Out-File -FilePath $env:GITHUB_PATH -Append
+        
+    - name: Run SAST Scan
+      run: |
+        syhunt scan -t . -m sast -o sast-report.html
+        
+    - name: Upload Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: sast-report
+        path: sast-report.html
