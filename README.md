@@ -1,6 +1,11 @@
 
 # Relatório de Segurança - Análise de Vulnerabilidades em Aplicações no Pipeline de Software Seguro
 
+Objetivo:
+Utilizei o JUICE por ser uma aplicação web com algumas falhas para identificar vulnerabilidades usando SAST (CodeQL) e DAST (ZAP).
+
+
+
 ## 🔍 Métodos  
 - **SAST**: CodeQL (via GitHub Actions)  
 - **DAST**: OWASP ZAP (scan em `http://localhost:3000`)  
