@@ -1,0 +1,27 @@
+name: SAST com Semgrep
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+    name: Rodar Semgrep
+    steps:
+      - name: Clonar o código
+        uses: actions/checkout@v2
+
+      - name: Instalar Semgrep
+        run: pip install semgrep
+
+      - name: Rodar análise
+        run: semgrep --config auto --json > semgrep-report.json
+
+      - name: Salvar Relatório
+        uses: actions/upload-artifact@v2
+        with:
+          name: semgrep-report
+          path: semgrep-report.json
