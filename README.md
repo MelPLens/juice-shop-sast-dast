@@ -1,28 +1,38 @@
 
-# Relatório de Análise de Segurança  
-**Alunos**: Mel Plens Angelis
+# Relatório de Segurança - Análise de Vulnerabilidades em Aplicações no Pipeline de Software Seguro
 
-## Metodologia  
-1. **SAST**: CodeQL (GitHub Actions)  
-2. **DAST**: OWASP ZAP  
+## 🔍 Métodos  
+- **SAST**: CodeQL (via GitHub Actions)  
+- **DAST**: OWASP ZAP (scan em `http://localhost:3000`)  
 
-## Resultados  
+## 🚨 Vulnerabilidades Encontradas  
+| Tipo            | Local                         | Gravidade | Correção |  
+|-----------------|-------------------------------|-----------|----------|  
+| XSS Refletido   | `/search?q=<script>alert(1)`  | Alta      | `escapeHtml()` |  
+| SQL Injection   | Campo de login (`' OR 1=1 --`) | Crítica   | Prepared Statements |  
 
-### SAST (CodeQL)  
-| ID  | Vulnerabilidade           | Gravidade | Arquivo               | Correção |  
-|-----|---------------------------|-----------|-----------------------|----------|  
-| #88 | SSRF                     | Critical  | routes/imageUpload.js | Validar URL |  
-| #80 | Hard-coded credentials   | Critical  | test/verifySpec.js    | Usar env vars |  
+## 📎 Evidências  
+- [Relatório completo do ZAP](file:///C:/Users/melpl/2025-04-15-ZAP-Report-.html)
 
-### DAST (OWASP ZAP)  
-- **XSS Refletido**: `/search?q=<script>alert(1)</script>`  
-- **Falta de Headers de Segurança**: Adicionar `Content-Security-Policy`.  
+   
+ 1) NPM START
+    
+ ![image](https://github.com/user-attachments/assets/f12321a6-f999-48d5-96ae-f4d270dce518)
+
+
+
+2) Alerts
+
+![image](https://github.com/user-attachments/assets/57c51606-6f90-47b8-8658-1435e191e33f)
+
+3) Gerando Report
+
+![image](https://github.com/user-attachments/assets/dc0be065-8820-4d8b-94d1-27ea62a228a9)
+
+
 
 ## ✅ Conclusão  
-- Remover credenciais hard-coded e validar inputs.  
-- Adicionar CSP para mitigar XSS.  
-
-
+As correções foram validadas com novo scan no ZAP.  
 --------
 
 
